@@ -2,18 +2,43 @@ let modalQtd = 1;
 let modalKey = 0;
 let cart = [];
 
-const c  = (el) => document.querySelector(el);
-const cs = (el) => document.querySelectorAll(el);
-
-pizzaJson.map((item, index) => {
-    let pizzaItem = c('.models .pizza-item').cloneNode(true);
-
+const setPizzaCard = (pizzaItem, item, index) => {
     pizzaItem.setAttribute('data-key', index)
     pizzaItem.querySelector('.pizza-item-name').innerHTML = item.name;
     pizzaItem.querySelector('.pizza-item-price').innerHTML = `R$ ${item.price.toFixed(2)}`;
     pizzaItem.querySelector('.pizza-item-desc').innerHTML = item.description;
     pizzaItem.querySelector('.pizza-item-img img').src = item.img;
+};
 
+const setPizzaSize = (key) => {
+    document.querySelectorAll('.pizzaInfo-size').forEach((size, sizeIndex)=>{
+        if (sizeIndex == 2) {
+            size.classList.add('selected');
+        }
+        size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex];
+    });
+};
+
+const setPizzaDataInfo = (key) => {
+    document.querySelector('.pizzaInfo .pizzaInfo-desc').innerHTML = pizzaJson[key].description;
+    document.querySelector('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
+    document.querySelector('.pizzaBig img').src = pizzaJson[key].img;
+    document.querySelector('.pizzaInfo-price .pizzaInfo-actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;
+    document.querySelector('.pizzaInfo-size.selected').classList.remove('selected');
+    document.querySelector('.pizzaInfo-qt').innerHTML = modalQtd;
+
+    setPizzaSize(key);
+};
+
+const transitionCard = () => {
+    document.querySelector('.pizzaWindowArea').style.opacity = '0';
+    document.querySelector('.pizzaWindowArea').style.display = 'flex';
+    setTimeout(()=>{
+        document.querySelector('.pizzaWindowArea').style.opacity = '1';
+    }, 100);
+};
+
+const setPizzaData = (pizzaItem) => {
     pizzaItem.querySelector('a').addEventListener('click', (e) => {
         e.preventDefault();
 
@@ -21,68 +46,59 @@ pizzaJson.map((item, index) => {
         modalQtd = 1;
         modalKey = key;
 
-        c('.pizzaInfo .pizzaInfo-desc').innerHTML = pizzaJson[key].description;
-        c('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
-        c('.pizzaBig img').src = pizzaJson[key].img;
-        c('.pizzaInfo-price .pizzaInfo-actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;
-        c('.pizzaInfo-size.selected').classList.remove('selected');
-        cs('.pizzaInfo-size').forEach((size, sizeIndex)=>{
-            if (sizeIndex == 2) {
-                size.classList.add('selected');
-            }
-            size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex];
-        })
-        c('.pizzaInfo-qt').innerHTML = modalQtd;
-
-        c('.pizzaWindowArea').style.opacity = '0';
-        c('.pizzaWindowArea').style.display = 'flex';
-        setTimeout(()=>{
-            c('.pizzaWindowArea').style.opacity = '1';
-        }, 100);
+        setPizzaDataInfo(key);
+        transitionCard();
     });
+};
 
-    //preencher as informações do pizza item
-    c('.pizza-area').append(pizzaItem);
-});
+const mapJson = () => {
+    pizzaJson.map((item, index) => {
+        let pizzaItem = document.querySelector('.models .pizza-item').cloneNode(true);
 
-//Eventos do modal
+        setPizzaCard(pizzaItem, item, index);
+        setPizzaData(pizzaItem);
+
+        document.querySelector('.pizza-area').append(pizzaItem);
+    });
+}
+
 function closeModal() {
-    c('.pizzaWindowArea').style.opacity = '0';
+    document.querySelector('.pizzaWindowArea').style.opacity = '0';
     setTimeout(()=>{
-        c('.pizzaWindowArea').style.display = 'none';
+        document.querySelector('.pizzaWindowArea').style.display = 'none';
     }, 500);       
 }
 
-c('.menu-closer').addEventListener('click', () => {
-    c('aside').style.left = '100vw';
+document.querySelector('.menu-closer').addEventListener('click', () => {
+    document.querySelector('aside').style.left = '100vw';
 })
 
-cs('.pizzaInfo-cancelButton, .pizzaInfo-cancelMobileButton').forEach((item)=>{
+document.querySelectorAll('.pizzaInfo-cancelButton, .pizzaInfo-cancelMobileButton').forEach((item)=>{
     item.addEventListener('click', closeModal);
 });
 
 
-c('.pizzaInfo-qtmais').addEventListener('click', () => {
+document.querySelector('.pizzaInfo-qtmais').addEventListener('click', () => {
     modalQtd++
-    c('.pizzaInfo-qt').innerHTML = modalQtd ; 
+    document.querySelector('.pizzaInfo-qt').innerHTML = modalQtd ; 
 });
 
-c('.pizzaInfo-qtmenos').addEventListener('click', () => { 
+document.querySelector('.pizzaInfo-qtmenos').addEventListener('click', () => { 
     if (modalQtd > 1) {
         modalQtd--;
-        c('.pizzaInfo-qt').innerHTML = modalQtd ;
+        document.querySelector('.pizzaInfo-qt').innerHTML = modalQtd ;
     }
 });
 
-cs('.pizzaInfo-size').forEach((size)=>{
+document.querySelectorAll('.pizzaInfo-size').forEach((size)=>{
     size.addEventListener('click', () => {
-        c('.pizzaInfo-size.selected').classList.remove('selected');       
+        document.querySelector('.pizzaInfo-size.selected').classList.remove('selected');       
         size.classList.add('selected');      
     })
 });
 
-c('.pizzaInfo-addButton').addEventListener('click', ()=>{
-    let size = parseInt(c('.pizzaInfo-size.selected').getAttribute('data-key'));
+document.querySelector('.pizzaInfo-addButton').addEventListener('click', ()=>{
+    let size = parseInt(document.querySelector('.pizzaInfo-size.selected').getAttribute('data-key'));
 
     let identifier = pizzaJson[modalKey].id+'@'+size;
 
@@ -102,84 +118,99 @@ c('.pizzaInfo-addButton').addEventListener('click', ()=>{
     }
 
     updateCart();
-
     closeModal();
 });
 
-c('.menu-openner').addEventListener('click', (e) => {
-    c('aside').style.left = 0;
+document.querySelector('.menu-openner').addEventListener('click', (e) => {
+    document.querySelector('aside').style.left = 0;
     updateCart();
 });
 
+const showCart = () => {
+    document.querySelector('aside').classList.add('show');
+    document.querySelector('.cart').innerHTML = '';   
+}; 
+
+const hideCart = () => {
+    document.querySelector('aside').classList.remove('show');
+    document.querySelector('aside').style.left = '100vw';
+};
+
+const returnPizzaSize = (size) => {
+    switch (size) {
+        case 0: 
+            return '(P)';
+        case 1: 
+            return '(M)';
+        case 2: 
+            return '(G)';
+    }
+};
+
+const setCartItemValues = (index, pizzaItem) => {
+    let cartItem = document.querySelector('.models .cart-item').cloneNode(true);
+
+    cartItem.querySelector('img').src = pizzaItem.img;
+    cartItem.querySelector('.cart-item-nome').innerHTML = `${pizzaItem.name} - ${returnPizzaSize(cart[index].size)}`;
+    cartItem.querySelector('.cart-item-qt').innerHTML = cart[index].qtd;
+
+    cartItem.querySelector('.cart-item-qtmais').addEventListener('click', () => {
+        cart[index].qtd++ ; 
+        updateCart();
+    });
+
+    cartItem.querySelector('.cart-item-qtmenos').addEventListener('click', () => {
+        if (cart[index].qtd > 1) {
+            cart[index].qtd-- ; 
+        } else {
+            cart.splice(index, 1);
+        }
+
+        updateCart();
+    });
+
+    document.querySelector('.cart').append(cartItem);
+};
+
+const updateTotal = (subTotal) => {
+    let discount = subTotal * 0.1;
+    let total = subTotal - discount;
+
+    document.querySelector('.subtotal span:last-child').innerHTML = `R$ ${subTotal.toFixed(2)}`;
+    document.querySelector('.discount span:last-child').innerHTML = `R$ ${discount.toFixed(2)}`;
+    document.querySelector('.total span:last-child').innerHTML = `R$ ${total.toFixed(2)}`;
+
+    discount = subTotal * 0.1;
+    total = subTotal - discount;
+}
+
 function  updateCart() {
-    c('.menu-openner span').innerHTML = cart.length;
+    document.querySelector('.menu-openner span').innerHTML = cart.length;
 
     if(cart.length > 0){
-        c('aside').classList.add('show');
-        c('.cart').innerHTML = '';
+        showCart();
 
         let subTotal = 0;
-        let desconto = 0;
-        let total    = 0
 
         for (let i in cart) {
-
             let pizzaItem = pizzaJson.find((item)=>{
                 return item.id == cart[i].id;
             });
 
             subTotal += pizzaItem.price * cart[i].qtd;
 
-            let cartItem = c('.models .cart-item').cloneNode(true);
-
-            let pizzaSizeName;
-
-            switch (cart[i].size) {
-                case 0: 
-                    pizzaSizeName = 'P';
-                    break;
-                case 1: 
-                    pizzaSizeName = 'M';
-                    break;
-                case 2: 
-                    pizzaSizeName = 'G';
-                    break;
-            }
-
-            let pizzaName = `${pizzaItem.name} - ${pizzaSizeName}` ;
-
-            cartItem.querySelector('img').src = pizzaItem.img;
-            cartItem.querySelector('.cart-item-nome').innerHTML = pizzaName;
-            cartItem.querySelector('.cart-item-qt').innerHTML = cart[i].qtd;
-            
-            cartItem.querySelector('.cart-item-qtmais').addEventListener('click', () => {
-                cart[i].qtd++ ; 
-                updateCart();
-            });
-
-            cartItem.querySelector('.cart-item-qtmenos').addEventListener('click', () => {
-                if (cart[i].qtd > 1) {
-                    cart[i].qtd-- ; 
-                } else {
-                    cart.splice(i, 1);
-                }
-
-                updateCart();
-            });
-
-            c('.cart').append(cartItem);
-
+            setCartItemValues(i, pizzaItem); 
         } 
 
-        desconto = subTotal * 0.1;
-
-        total = subTotal - desconto;
-
-        c('.subtotal span:last-child').innerHTML = `R$ ${subTotal.toFixed(2)}`;
-        c('.desconto span:last-child').innerHTML = `R$ ${desconto.toFixed(2)}`;
-        c('.total span:last-child').innerHTML = `R$ ${total.toFixed(2)}`;
+        updateTotal(subTotal);
     } else {
-        c('aside').classList.remove('show');
-        c('aside').style.left = '100vw';
+        hideCart();
     }
 }
+
+
+const init = () => {
+    mapJson();
+}
+
+init();
