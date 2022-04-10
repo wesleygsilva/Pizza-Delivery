@@ -415,6 +415,41 @@ h1 {
     background-color:#35af4a;
 }
 
+.cupom input{
+    font-size: 18px;
+    height: 38px;
+    border: none;
+    -webkit-appearance: button;
+    outline: none;
+    padding: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    text-align: right;
+    width: 130px;
+    text-transform: uppercase;
+}
+
+.cupom-area {
+    display: flex;
+    flex-direction: row;
+    /* background-color: red; */
+}
+
+.cupom {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    align-items: center;
+}
+
+.cupom button {
+    border: none;
+    cursor: pointer;
+    width: 60px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
 @media (max-width:1000px) {
     .pizza-area {
         grid-template-columns: repeat(2, 1fr);
