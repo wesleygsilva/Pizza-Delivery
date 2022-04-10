@@ -11,7 +11,7 @@ let pizzaJson = [
     {id:9, name:'Brocolis', img:'../src/images/Brocolis.png', prices:['32.90', '39.90', '45.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, mussarela, brócolis, parmesão, alho, orégano e azeitonas (bacon opcional).'},
     {id:10, name:'Carne Seca', img:'../src/images/Carne Seca.png', prices:['44.90', '55.90', '62.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, carne seca, mussarela, cebola, azeitonas e orégano.'},
     {id:11, name:'Escarola', img:'../src/images/Escarola.png', prices:['27.50', '32.90', '37.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, escarola, mussarela, bacon fatiado, orégano e azeitonas.'},
-    {id:12, name:'Frango com bacon', img:'../src/images/Frango com bacon.png', prices:['32.90', '39.90', '45.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, frango desfiado, mussarela, bacon fatiado, orégano e azeitonas.'},
+    {id:12, name:'Frango com Bacon', img:'../src/images/Frango com bacon.png', prices:['32.90', '39.90', '45.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, frango desfiado, mussarela, bacon fatiado, orégano e azeitonas.'},
     {id:13, name:'Frango com Requeijão', img:'../src/images/Frango com Requeijão.png', prices:['37.50', '46.90', '51.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, frango desfiado, mussarela, requeijão, orégano e azeitonas.'},
     {id:14, name:'Hot Dog', img:'../src/images/Hot Dog.png', prices:['32.90', '39.90', '45.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, salsicha, mussarela, tomate, molho especial, batata palha e orégano.'},
     {id:15, name:'Lombo', img:'../src/images/Lombo.png', prices:['32.90', '39.90', '45.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, mussarela, lombo, requeijão, orégano e azeitonas.'},
@@ -19,6 +19,6 @@ let pizzaJson = [
     {id:17, name:'Napolitana', img:'../src/images/Napolitana.png', prices:['27.50', '32.90', '37.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, presunto, mussarela, tomate, parmesão, azeitonas e orégano.'},
     {id:18, name:'Peperoni', img:'../src/images/Peperoni.png', prices:['44.90', '55.90', '62.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, mussarela, peperoni, orégano e azeitonas.'},
     {id:19, name:'Portuguesa', img:'../src/images/Portuguesa.png', prices:['36.90', '44.90', '51.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, presunto, palmito, ervilha, ovos, mussarela, cebola, orégano e azeitonas.'},
-    {id:20, name:'Pão de alho', img:'../src/images/Pão de alho.png', prices:['36.90', '44.90', '51.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, pão de alho, mussarela, bacon fatiado, azeitonas e orégano.'},
+    {id:20, name:'Pão de Alho', img:'../src/images/Pão de alho.png', prices:['36.90', '44.90', '51.90'], sizes:['350g', '635g', '980g'], description:'Molho de tomate, pão de alho, mussarela, bacon fatiado, azeitonas e orégano.'},
     {id:21, name:'Strogonoff de Carne', img:'../src/images/Strogonoff.png', prices:['38.90', '46.90', '54.90'], sizes:['350g', '635g', '980g'], description:'Strogonoff de carne, champignon, mussarela, orégano, azeitonas e batata palha.'},
 ];
