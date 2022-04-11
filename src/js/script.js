@@ -189,8 +189,7 @@ document.querySelectorAll('.pizzaInfo-size').forEach((size)=>{
         document.querySelector('.pizzaInfo-size.selected').classList.remove('selected');       
         size.classList.add('selected');  
         
-        document.querySelector('.pizzaInfo-price .pizzaInfo-actualPrice').innerHTML = setPizzaPrice(modalkey, returnKey());
-
+        document.querySelector('.pizzaInfo-price .pizzaInfo-actualPrice').innerHTML = setPizzaPrice(modalKey, returnKey());
     });
 });
 
