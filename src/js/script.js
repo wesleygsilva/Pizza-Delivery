@@ -59,7 +59,86 @@ const setPizzaData = (pizzaItem) => {
     });
 };
 
-const mapJson = () => {
+const getDate = (date) => {
+    let strData = date;
+    let splitData = strData.split("-");
+    return new Date(splitData[0], splitData[1] - 1, splitData[2]);
+};
+
+const validateCupom = () => {
+    let cupom = document.querySelector('[data-js="cupom"]').value;
+
+    if (cupom != '') {
+        document.querySelector('[data-js="cupom"]').setAttribute('readonly', 'false');
+        document.querySelector('[data-js="apply-discount"]').setAttribute('readonly', 'false');
+
+        let isValid = false;
+
+        cupomJson.map((item) => {
+            if (cupom.toUpperCase() == item.promocode.toUpperCase()) {
+                let initialDate = getDate(item.initialDate)
+                let finalDate = getDate(item.finalDate)
+                
+                if (initialDate > new Date()) {
+                    return;
+                } else if (finalDate < new Date()) {
+                    return;     
+                } else if (!item.isValid) {
+                    return;  
+                }else {
+                    isValid = true; 
+                    applyDiscount(item);
+
+                }
+            } 
+        });
+
+        if (!isValid) {
+            alert('Cupom Inválido ou Expirado');   
+        };   
+    }
+};
+
+const applyDiscount = (item) => {
+    let discontValue = document.querySelector('.discount span:last-child').innerHTML;
+    discontValue = parseFloat(discontValue.substring(3, discontValue.length));
+
+    if (discontValue == 0) {
+        let total = document.querySelector('.total span:last-child').innerHTML;
+        total = parseFloat(total.substring(3, total.length));
+
+        let discount = 0;
+
+        if (item.discounttype = 'percent') {
+            discount = (total * (item.value / 100));
+        } else { 
+            discount =  item.value;
+        }
+
+        total = total - discount;
+
+        document.querySelector('.discount span:last-child').innerHTML = `R$ ${discount.toFixed(2)}`;
+        document.querySelector('.total span:last-child').innerHTML    = `R$ ${total.toFixed(2)}`;
+
+        document.querySelector('[data-js="cupom"]').setAttribute('readonly', true);
+        document.querySelector('[data-js="apply-discount"]').setAttribute('readonly', true);
+
+    } else {
+        alert('Cupom já aplicado')
+    }
+}
+
+const clearCupom = () => {
+    document.querySelector('[data-js="cupom"]').value = '';
+    document.querySelector('[data-js="cupom"]').removeAttribute('readonly');
+    document.querySelector('[data-js="apply-discount"]').removeAttribute('readonly');
+}
+
+document.querySelector('[data-js="apply-discount"]').addEventListener('click', () => {
+    validateCupom();
+});
+
+const mapPizzaJson = () => {
     pizzaJson.sort(function (obj1, obj2) {
         return obj1.name < obj2.name ? -1 :
         (obj1.name > obj2.name ? 1 : 0);
@@ -85,6 +164,7 @@ function closeModal() {
 document.querySelector('.menu-closer').addEventListener('click', () => {
     document.querySelector('aside').style.left = '100vw';
     document.querySelector('aside').classList.remove('show');
+    clearCupom();
 })
 
 document.querySelectorAll('.pizzaInfo-cancelButton, .pizzaInfo-cancelMobileButton').forEach((item)=>{
@@ -109,8 +189,7 @@ document.querySelectorAll('.pizzaInfo-size').forEach((size)=>{
         document.querySelector('.pizzaInfo-size.selected').classList.remove('selected');       
         size.classList.add('selected');  
         
-        document.querySelector('.pizzaInfo-price .pizzaInfo-actualPrice').innerHTML = setPizzaPrice(modalkey, returnKey());
-
+        document.querySelector('.pizzaInfo-price .pizzaInfo-actualPrice').innerHTML = setPizzaPrice(modalKey, returnKey());
     });
 });
 
@@ -190,7 +269,7 @@ const setCartItemValues = (index, pizzaItem) => {
 };
 
 const updateTotal = (subTotal) => {
-    let discount = subTotal * 0.1;
+    let discount = 0;
     let total = subTotal - discount;
 
     document.querySelector('.subtotal span:last-child').innerHTML = `R$ ${subTotal.toFixed(2)}`;
@@ -226,9 +305,17 @@ function  updateCart() {
     }
 }
 
+const mapCupons = () => {
+    cupomJson.map((item, index) => {
+        setPizzaCard(pizzaItem, item, index);
+        setPizzaData(pizzaItem);
+
+        document.querySelector('.pizza-area').append(pizzaItem);
+    });
+}
 
 const init = () => {
-    mapJson();
+    mapPizzaJson();
 }
 
 init();
