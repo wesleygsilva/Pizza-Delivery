@@ -150,7 +150,11 @@ const mapPizzaJson = () => {
         setPizzaCard(pizzaItem, item, index);
         setPizzaData(pizzaItem);
 
-        document.querySelector('.pizza-area').append(pizzaItem);
+        if (item.type == 'salty') {
+            document.querySelector('.salty').append(pizzaItem);
+        } else {
+            document.querySelector('.sweet').append(pizzaItem);   
+        }
     });
 }
 
@@ -303,15 +307,6 @@ function  updateCart() {
     } else {
         hideCart();
     }
-}
-
-const mapCupons = () => {
-    cupomJson.map((item, index) => {
-        setPizzaCard(pizzaItem, item, index);
-        setPizzaData(pizzaItem);
-
-        document.querySelector('.pizza-area').append(pizzaItem);
-    });
 }
 
 const init = () => {
